@@ -54,9 +54,8 @@ def save_data():
     data = request.get_json(force=True)
     db = get_db()
     if 'users' in data:
-        db.execute("DELETE FROM users")
         for key, u in data['users'].items():
-            db.execute("INSERT INTO users(id,name,phone,password,role) VALUES(?,?,?,?,?)", (key,u['name'],u['phone'],u['password'],u['role']))
+            db.execute("INSERT OR REPLACE INTO users(id,name,phone,password,role) VALUES(?,?,?,?,?)", (key,u['name'],u['phone'],u['password'],u['role']))
     if 'tasks' in data:
         db.execute("DELETE FROM tasks")
         for t in data['tasks']:
